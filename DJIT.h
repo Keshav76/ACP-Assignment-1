@@ -21,7 +21,7 @@ public:
     }
     void append_slot() {
         int new_tid = num_threads;
-        
+
         if (parent_thread == -1) Th[new_tid] = vector<int>(new_tid, 0);
         else Th[new_tid] = Th[parent_thread];
 
@@ -68,7 +68,7 @@ public:
                 Rd[v][thread] = Th[thread][thread];
                 for (int i = 0; i < num_threads; i++)
                 {
-                    if (Wr[v][i] >= Th[thread][i] && i != thread)
+                    if (Wr[v][i] > Th[thread][i] && i != thread)
                         report(i, thread, "W-R", v);
                 }
             }
@@ -77,9 +77,9 @@ public:
                 Wr[v][thread] = Th[thread][thread];
                 for (int i = 0; i < num_threads; i++)
                 {
-                    if (i != thread && (Wr[v][i] >= Th[thread][i]))
+                    if (i != thread && (Wr[v][i] > Th[thread][i]))
                         report(i, thread, "W-W", v);
-                    else if (i != thread && (Rd[v][i] >= Th[thread][i]))
+                    else if (i != thread && (Rd[v][i] > Th[thread][i]))
                         report(i, thread, "R-W", v);
                 }
             }
